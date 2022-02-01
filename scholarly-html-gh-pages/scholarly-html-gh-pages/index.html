@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>TRASD Scholarly HTML</title>
+    <link rel="stylesheet" href="css/scholarly.css">
+    <script src="js/scholarly.min.js"></script>
+</head>
+
+
+<body prefix="schema: http://schema.org">
+    <header>
+        <div class="banner">
+            <img src="scholarly-html.svg" width="227" height="50" alt="Scholarly HTML logo">
+            <div class="status">Traffic Sign Smart Detector (TRASD)</div>
+        </div>
+        <h1>Scholarly HTML</h1>
+    </header>
+
+    <div role="contentinfo">
+        <dl>
+            <dt>Authors</dt>
+            <dd>
+                Tzviya Siegman (Wiley) &amp;
+                <a href="http://berjon.com/">Robin Berjon</a>,
+                <a href="https://twitter.com/robinberjon">@robinberjon</a> (
+                <a href="http://science.ai/">science.ai</a>)
+            </dd>
+            <dt>Bugs &amp; Feedback</dt>
+            <dd>
+                <a href="https://github.com/w3c/scholarly-html/issues">Issues and PRs welcome!</a>
+            </dd>
+            <dt>Discussion Group</dt>
+            <dd>
+                The <a href="https://www.w3.org/community/scholarlyhtml/">Scholarly HTML Community
+        Group</a> at <a href="https://w3.org/">W3C</a> (
+                <a href="https://lists.w3.org/Archives/Public/public-scholarlyhtml/">email archives</a>)
+            </dd>
+            <dt>License</dt>
+            <dd>
+                <a href="http://creativecommons.org/licenses/by/4.0/">CC-BY</a>
+            </dd>
+
+            <dt>Content Authors</dt>
+            <dd>
+                Luchian Vlad-Ilie &amp; Serban Vlad-Andrei
+            </dd>
+        </dl>
+    </div>
+
+    <section typeof="sa:Abstract" id="abstract" role="doc-abstract">
+        <h2>Abstract</h2>
+        <p>
+            This report describes the solution proposed in order to implement TRASD, a WADE project. The report provides details regarding the architecture of the application and its structure, the technologies that we have used (frontend + backend) and also contains
+            useful diagrams.
+        </p>
+    </section>
+    <section id="introduction" role="doc-introduction">
+
+        <h2>Introduction</h2>
+        <p>
+            TRASD (TRAffic Sign Smart Detector) is a micro-service-based Web Application able to detect traffic signs marking a route. The route can either be uploaded as a video or as photos containing traffic signs. The project consists in multiple services, each
+            with their own functionality : frontend, backend (2 APIs running at different PORTS) and the machine learning service. The features of the app are available to the user through the use of our frontend application, developed with React and
+            Redux.
+        </p>
+        <p> There are 3 pages available for the end user : homepage, Browse page and the Sign Detection page. There will be more information about them later In the article. The backend consists of 2 APIs made in python 3.9 with the help of flask. One of
+            them is responsible for the interaction with the ontology and the other one facilitates the media transfer between user and server (photos, videos). The machine learning service is responsible with the processing of the media received from
+            the user, recognizing signs in the given frames.
+
+        </p>
+
+    </section>
+    <section id="structure">
+
+        <h2>Application Use Cases</h2>
+        <p>
+            In this section we are going to explain our app's main functionalities, along with its nice and useful features. The main navigation bar looks like this and can be used to navigate through our app.
+        </p>
+        <img class="image" src="images/navbar.jpg">
+        <section id="Root">
+
+            <h3>Traffic sign Browse</h3>
+            <p>
+                By clicking on “Browse” on the main navigation bar, the user will be redirected to the browse page. Here he can find all the signs stored in our ontology grouped by their category.
+            </p>
+            <p>
+                By clicking on one specific sign, there will be a modal popping up on which can be found useful information regarding the sign, such as : its name, regulations, advices and related signs. By clicking on one of the related signs, the modal content will
+                change accordingly.
+            </p>
+        </section>
+        <section id="article">
+
+            <h3>Traffic sign Smart Detector</h3>
+            <p>
+                By clicking on “Sign Detection” on the main navigation bar, the user will be redirected to the Sign Detection page. Here, the user can click on “UPLOAD A FILE” in order to upload a video or a photo. By clicking on “Detect Traffic Signs”, after a short
+                loading time the user will be given the required info:
+            </p>
+            <ul>
+                <li>
+                    <p>If the file is an image: he will get in return the same image with all identified signs highlighted in red. A slideshow will appear underneath and he can click on each sign in order to get more information about it.</p>
+                    <img class="image" src="images/browse.jpg">
+                    <p>The modal is structured as below:</p>
+                    <img class="image" src="images/modal.jpg">
+                </li>
+                <li>
+                    <p>If the file is a video: he will get in return multiple images, each of them being the frame in which the traffic sign was recognized. The user can click either on the given frames or on the slideshow underneath in order to learn more
+                        about the detected sign.</p>
+                    <img class="image" src="images/detection.jpg">
+                </li>
+            </ul>
+        </section>
+    </section>
+    <section id="semantics">
+
+        <h2>Ontology</h2>
+        <p>
+            In order to create our ontology we used Protege. The information was gathered from Dbpedia (automatically, with the help of some SPARQL queris) or manually written (with the help of driver's school websites).
+        </p>
+        <p>
+            We tried to automate the population process even more, but the dataset used to train the machine learning model was scarce and we couldn't find a consistent source for data, as it couldn't be random.
+        </p>
+        <section>
+            <h3>Ontological model</h3>
+            <p>
+                Next, we will provide a general description of the ontology model:
+                <ul>
+                    <li>
+                        <p>
+                            class Thing, from which the other classes derive
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            class TrafficSign
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            classes ProhibitorySign, MandatorySign, PrioritySign, WarningSign wich represent the categories of our traffic signs
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            Individuals with useful properties and relations for each class.
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            relations isOpposedTo, CounterPart which sets relationships between traffic signs
+                        </p>
+                    </li>
+                </ul>
+            </p>
+            <p>
+                Below, a complete diagram of the ontology:
+            </p>
+            <figure typeof="sa:image">
+                <img class="ontology" src="images/ontology.png">
+            </figure>
+            <p>
+                Some metrics regarding our ontology can be found below:
+            </p>
+            <img class="image" src="images/metrics.png">
+        </section>
+
+
+    </section>
+
+    <section id="machine-learning">
+        <h2>Machine Learning (Deep Learning) Service</h2>
+        <section id="approach">
+            <h3>Best ML/DL approach</h3>
+            <p>
+                In order to create the traffic signs classifier we first have to choose what and how to use it. Using deep learning techniques we can achieve a very capable classifier. Those being said, our choice is CNN (Convolutional Neural Networks).
+            </p>
+        </section>
+        <section id="dataset">
+            <h3>Dataset</h3>
+            <p>
+                We started with the dataset from Kaggle (dataset) and we added on top of that more training and testing images from Traffic Sign DB to achieve the best result possible. We have at this moment 43 classes of traffic signs and we built our ontology having
+                these as a starting point. </p>
+            <p>Having 43 types of traffic signs (= 43 classes) we are going to build our CNN model using Tensorflow.
+            </p>
+        </section>
+        <section id="processing-dataset">
+            <h3>Processing the dataset</h3>
+            <p>
+                Convert all the images and their labels into numpy arrays and we are using them to create the model
+            </p>
+            <img class="image" src="images/dataset_process.jpg">
+        </section>
+        <section id="model-architecture">
+            <h3>Model architecture</h3>
+            <ul>
+                <li>2 Conv2D layers</li>
+                <li>MaxPool2D layer</li>
+                <li>Dropout layer</li>
+                <li>2 Conv2D layers</li>
+                <li>MaxPool2D layer</li>
+                <li>Flatten layer to squeeze the layers into one dimension</li>
+                <li>Dense fully connected layer</li>
+                <li>Dropout layer</li>
+                <li>Dense layer</li>
+            </ul>
+            <img class="image" src="images/relu.jpg">
+        </section>
+        <section id="training-testing">
+            <h3>Training and testing</h3>
+            <p>
+                After training and testing our model we obtained (~94% accuracy) the following results:
+            </p>
+            <img class="image" src="images/training.jpg">
+            <p>The obtained accuracy across all the epochs can be found bellow: </p>
+            <img class="image" src="images/plot.jpg">
+            <p>We can observe the loss:</p>
+            <img class="image" src="images/plot_loss.jpg">
+        </section>
+    </section>
+    <section id="traffic-recognition">
+        <h2>Traffic Signs Recognition and Detection</h2>
+        <section id="processing">
+            <h3>Image processing</h3>
+            <p>In order to use the generated classifier using Deep Learning we have to do a little bit of image processing. How are we going to detect any traffic sign from an image? -> The traffic signs we are using come in 3 colors (Blue, Red and Yellow).
+                We are going to apply 3 masks (HSV - Hue Saturation Value) to our input image (frame), one for each color having as reference the following image of the colormap.</p>
+            <p>It’s worthy to mention that the color red has two intervals (0-15 and 155-179). The second phase is to look for geometric shapes specific to traffic signs(circles, triangles, squares and polygons) after applying the masks.
+            </p>
+            <img class="image" src="images/colormap.png">
+            <p>As a reference having this image as input and applying the red color mask we achieve this:</p>
+            <div id="comparisson">
+                <img src="images/sign_colored.jpg">
+                <img src="images/sign_black.jpg">
+            </div>
+            <p>
+                After identifying the geometric shape (a circle in this case) we are going to fit it in a red square and send that area of the original image (the red square area) to our model to identify the sign:
+            </p>
+            <div id="comparisson">
+                <img src="images/sign_squared.jpg">
+                <img src="images/sign_text.jpg">
+            </div>
+        </section>
+        <section id="video-processing">
+            <h2>Video processing</h2>
+            <p>
+                Here we go frame by frame and we are using the same mechanism presented <a href="#processing">here</a> to identify traffic signs.
+            </p>
+        </section>
+    </section>
+    <section id="APIs">
+        <h2>APIs</h2>
+        <section id="trasd-api">
+            <h3>TRASD API (REST)</h3>
+            <p>We are providing two routes :</p>
+            <ul>
+                <li>One which allows a user to upload an image and it will return another image with the identified traffic signs</li>
+                <li>One which allows a user to upload a video and it will return a list of images, one for each frame where a traffic sign was detected.</li>
+            </ul>
+        </section>
+        <section id="semantic-api">
+            <h3>SEMANTIC API (REST)</h3>
+            <p>
+                This API is a wrapper for SPARQL queries. We will translate these calls into SPARQL queries and return the response as JSON. We are providing multiple routes to extract all the information we need from the ontology.
+            </p>
+        </section>
+    </section>
+    <section id="data_principles">
+        <h2>Why our project follows the Linked Data Principles</h2>
+        <p>First of all, we are using an ontology (a knowledge model) to store and model the data we need for this application. </p>
+        <p>We are using URIs to identify resources. Although we are using a Flask API wrapper for our SPARQL, a route in this API (
+            <code>&lt;route&gt;/{resourceIdentifier}</code> will be translated into a suitable SPARQL query.</p>
+        <p>When clicking on a traffic sign to read more about it there will appear multiple related signs. There are many relations between signs (e.g: isOppositeOf, counterPart, sameCategory, etc) and we will display these. The conclusion is that our data
+            is connected.</p>
+    </section>
+
+    <section role="doc-biblioref" id="references">
+        <h2>References</h2>
+        <p>The images were taken from:</p>
+        <ul>
+            <li><a href="https://www.istockphoto.com/">https://www.istockphoto.com/</a></li>
+            <li><a href="https://www.gettyimages.com">https://www.gettyimages.com</a></li>
+            <li><a href="https://www.dreamstime.com">https://www.dreamstime.com</a></li>
+            <li><a href="https://www.alamy.com">https://www.alamy.com</a></li>
+            <li><a href="https://www.shutterstock.com">https://www.shutterstock.com</a></li>
+        </ul>
+        <p>Dataset:</p>
+        <ul>
+            <li><a href="https://www.kaggle.com/meowmeowmeowmeowmeow/gtsrb-german-traffic-sign">https://www.kaggle.com/meowmeowmeowmeowmeow/gtsrb-german-traffic-sign</a></li>
+            <li><a href="http://www.nlpr.ia.ac.cn/pal/trafficdata/recognition.html">http://www.nlpr.ia.ac.cn/pal/trafficdata/recognition.html</a></li>
+        </ul>
+        <p>Various resources that helped the developement:</p>
+        <ul>
+            <li><a href="https://www.tensorflow.org/install/pip">https://www.tensorflow.org/install/pip</a></li>
+            <li><a href="https://data-flair.training/blogs/convolutional-neural-networks-tutorial/">https://data-flair.training/blogs/convolutional-neural-networks-tutorial/</a></li>
+            <li><a href="https://data-flair.training/blogs/python-project-traffic-signs-recognition/">https://data-flair.training/blogs/python-project-traffic-signs-recognition/</a></li>
+            <li><a href="https://profs.info.uaic.ro/~busaco/teach/courses/wade/web-film.html">https://profs.info.uaic.ro/~busaco/teach/courses/wade/web-film.html</a></li>
+            <li><a href="https://www.dbpedia.org/">https://www.dbpedia.org/</a></li>
+            <li><a href="https://protege.stanford.edu/">https://protege.stanford.edu/</a></li>
+            <li><a href="https://www.youtube.com/watch?v=A2kkR1-qn5k">https://www.youtube.com/watch?v=A2kkR1-qn5k</a></li>
+            <li><a href="https://www.pyimagesearch.com/2016/02/08/opencv-shape-detection/">https://www.pyimagesearch.com/2016/02/08/opencv-shape-detection/</a></li>
+            <li><a href="https://www.researchgate.net/figure/Road-Sign-Ontology-Class-diagram_fig2_326207826">https://www.researchgate.net/figure/Road-Sign-Ontology-Class-diagram_fig2_326207826</a></li>
+            <li><a href="https://www.analyticsvidhya.com/blog/2021/05/convolutional-neural-networks-cnn/">https://www.analyticsvidhya.com/blog/2021/05/convolutional-neural-networks-cnn/</a></li>
+            <li><a href="https://dev.to/chandrapantachhetri/responsive-react-file-upload-component-with-drag-and-drop-4ef8">https://dev.to/chandrapantachhetri/responsive-react-file-upload-component-with-drag-and-drop-4ef8</a></li>
+        </ul>
+
+    </section>
+
+</body>
+
+</html>

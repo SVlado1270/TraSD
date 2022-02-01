@@ -1,0 +1,118 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Main API",
+    "description": "Main API for our TRASD application used to upload files.",
+    "version": "1.0.0"
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:5001"
+    }
+  ],
+  "paths": {
+    "/trasd/api/v1/upload/image": {
+      "post": {
+        "tags": [
+          "None"
+        ],
+        "description": "An user can upload an image (png/jpg/etc.) and it will be processed by the backend using our Traffic Sign Classifier. This route will return a list with the ids of the recognized signs (We use ids so we can map easily these things to our ML model) and an image with the identified signs in red squares and their name.",
+        "operationId": "processImage",
+        "requestBody": {
+          "content": {
+            "image/jpg": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trasd/api/v1/upload/video": {
+      "post": {
+        "tags": [
+          "None"
+        ],
+        "description": "An user can upload a video (mp4) and it will be processed by the backend. Long story short we will detect and classify the signs in the footage. Whenever a sign is recognised and classified we draw a red square around it and save a snapshot (a frame from the video). We will return a list with every frame that contains a classified sign and its id.",
+        "operationId": "processVideo",
+        "requestBody": {
+          "content": {
+            "video/mp4": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/inline_response_200_1"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "inline_response_200": {
+        "type": "object",
+        "properties": {
+          "signs": {
+            "minItems": 1,
+            "type": "array",
+            "description": "A list with the ids of recognized signs",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "image": {
+            "type": "string",
+            "description": "The bytearray of the encoded processed image. This image will have red squares around the detected traffic signs and their name."
+          }
+        }
+      },
+      "inline_response_200_1": {
+        "type": "object",
+        "properties": {
+          "signs": {
+            "type": "integer",
+            "description": "The id of the recognized traffic sign."
+          },
+          "image": {
+            "type": "string",
+            "description": "The bytearray of the encoded processed frame of the video. This frame will have a red square around the detected traffic sign and its name."
+          }
+        }
+      }
+    }
+  }
+}

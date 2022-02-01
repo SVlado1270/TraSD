@@ -1,0 +1,379 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Semantic API",
+    "description": "A Flask API which is a wrapper for the SPARQL queries. We defined multiple relations in our ontology between traffic signs. counterPart relation means that a sign is the counterpart for another like Speed Limit 80 and End Of Speed Limit 80. isOpposedTo relation means that the meaning of a sign is the opposite of another.",
+    "version": "1.0.0"
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/vladluc99/TRASD/1.0.0",
+      "description": "SwaggerHub API Auto Mocking"
+    },
+    {
+      "url": "http://127.0.0.1:5000"
+    }
+  ],
+  "paths": {
+    "/ontology/api/v1/signs": {
+      "get": {
+        "tags": [
+          "None"
+        ],
+        "summary": "Get all signs from our ontology.",
+        "description": "Returns a list with all signs (and information about them).",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/inline_response_200"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Something went wrong. Verify the ontology."
+          }
+        }
+      }
+    },
+    "/ontology/api/v1/signs/{id}": {
+      "get": {
+        "tags": [
+          "None"
+        ],
+        "summary": "Get sign by id",
+        "description": "Returns the sign that has the specified id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the sign",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Something went wrong. Verify the ontology."
+          }
+        }
+      }
+    },
+    "/ontology/api/v1/{category}/signs": {
+      "get": {
+        "tags": [
+          "None"
+        ],
+        "summary": "Get signs by category",
+        "description": "Returns a list of signs (and information about them) from a specific category.",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "description": "Category",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "utf8",
+              "enum": [
+                "MandatorySign",
+                "PrioritySign",
+                "ProhibitorySign",
+                "WarningSign"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/inline_response_200"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Something went wrong. Verify the ontology."
+          }
+        }
+      }
+    },
+    "/ontology/api/v1/signs/{id}/related": {
+      "get": {
+        "tags": [
+          "None"
+        ],
+        "summary": "Get related signs for a specific sign.",
+        "description": "Returns the related signs (A related sign is either from the same category or there exists a relation between these two signs)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the sign",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_2"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "inline_response_200": {
+        "type": "object",
+        "properties": {
+          "reference": {
+            "type": "string",
+            "description": "This is the URI of the sign in our ontology.",
+            "format": "utf8"
+          },
+          "advices": {
+            "type": "string",
+            "description": "Advices for drivers and pedestrians regarding this sign.",
+            "format": "utf8"
+          },
+          "id": {
+            "type": "integer",
+            "description": "The id of the sign."
+          },
+          "regulations": {
+            "type": "string",
+            "description": "Regulations regarding this sign.",
+            "format": "utf8"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the sign.",
+            "format": "utf8"
+          },
+          "category": {
+            "type": "string",
+            "description": "The category that this sign is part of.",
+            "format": "utf8"
+          }
+        }
+      },
+      "inline_response_200_1": {
+        "type": "object",
+        "properties": {
+          "reference": {
+            "type": "string",
+            "description": "This is the URI of the sign in our ontology.",
+            "format": "utf8"
+          },
+          "advices": {
+            "type": "string",
+            "description": "Advices for drivers and pedestrians regarding this sign.",
+            "format": "utf8"
+          },
+          "id": {
+            "type": "integer",
+            "description": "The id of the sign."
+          },
+          "regulations": {
+            "type": "string",
+            "description": "Regulations regarding this sign.",
+            "format": "utf8"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the sign.",
+            "format": "utf8"
+          },
+          "categoryReference": {
+            "type": "string",
+            "description": "The URI of the category that this sign if part of.",
+            "format": "utf8"
+          },
+          "category": {
+            "type": "string",
+            "description": "The category that this sign is part of.",
+            "format": "utf8"
+          }
+        }
+      },
+      "inline_response_200_2": {
+        "type": "object",
+        "properties": {
+          "sameCategory": {
+            "type": "array",
+            "description": "A list with all signs from this category.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "reference": {
+                  "type": "string",
+                  "description": "This is the URI of the sign in our ontology.",
+                  "format": "utf8"
+                },
+                "advices": {
+                  "type": "string",
+                  "description": "Advices for drivers and pedestrians regarding this sign.",
+                  "format": "utf8"
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "The id of the sign."
+                },
+                "regulations": {
+                  "type": "string",
+                  "description": "Regulations regarding this sign.",
+                  "format": "utf8"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The name of the sign.",
+                  "format": "utf8"
+                },
+                "categoryReference": {
+                  "type": "string",
+                  "description": "The URI of the category that this sign if part of.",
+                  "format": "utf8"
+                },
+                "category": {
+                  "type": "string",
+                  "description": "The category that this sign is part of.",
+                  "format": "utf8"
+                }
+              }
+            }
+          },
+          "counterPart": {
+            "type": "array",
+            "description": "A list with signs that have the counterPart relation with this sign.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "reference": {
+                  "type": "string",
+                  "description": "This is the URI of the sign in our ontology.",
+                  "format": "utf8"
+                },
+                "advices": {
+                  "type": "string",
+                  "description": "Advices for drivers and pedestrians regarding this sign.",
+                  "format": "utf8"
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "The id of the sign."
+                },
+                "regulations": {
+                  "type": "string",
+                  "description": "Regulations regarding this sign.",
+                  "format": "utf8"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The name of the sign.",
+                  "format": "utf8"
+                },
+                "categoryReference": {
+                  "type": "string",
+                  "description": "The URI of the category that this sign if part of.",
+                  "format": "utf8"
+                },
+                "category": {
+                  "type": "string",
+                  "description": "The category that this sign is part of.",
+                  "format": "utf8"
+                }
+              }
+            }
+          },
+          "isOpposedTo": {
+            "type": "array",
+            "description": "A list with signs that have the isOpposedTo relation with this sign.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "reference": {
+                  "type": "string",
+                  "description": "This is the URI of the sign in our ontology.",
+                  "format": "utf8"
+                },
+                "advices": {
+                  "type": "string",
+                  "description": "Advices for drivers and pedestrians regarding this sign.",
+                  "format": "utf8"
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "The id of the sign."
+                },
+                "regulations": {
+                  "type": "string",
+                  "description": "Regulations regarding this sign.",
+                  "format": "utf8"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The name of the sign.",
+                  "format": "utf8"
+                },
+                "categoryReference": {
+                  "type": "string",
+                  "description": "The URI of the category that this sign if part of.",
+                  "format": "utf8"
+                },
+                "category": {
+                  "type": "string",
+                  "description": "The category that this sign is part of.",
+                  "format": "utf8"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

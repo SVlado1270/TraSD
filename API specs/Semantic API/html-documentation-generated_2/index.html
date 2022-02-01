@@ -1,0 +1,515 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Semantic API</title>
+    <style type="text/css">
+      body {
+      	font-family: Trebuchet MS, sans-serif;
+      	font-size: 15px;
+      	color: #444;
+      	margin-right: 24px;
+      }
+      
+      h1	{
+      	font-size: 25px;
+      }
+      h2	{
+      	font-size: 20px;
+      }
+      h3	{
+      	font-size: 16px;
+      	font-weight: bold;
+      }
+      hr	{
+      	height: 1px;
+      	border: 0;
+      	color: #ddd;
+      	background-color: #ddd;
+      }
+      
+      .app-desc {
+        clear: both;
+        margin-left: 20px;
+      }
+      .param-name {
+        width: 100%;
+      }
+      .license-info {
+        margin-left: 20px;
+      }
+      
+      .license-url {
+        margin-left: 20px;
+      }
+      
+      .model {
+        margin: 0 0 0px 20px;
+      }
+      
+      .method {
+        margin-left: 20px;
+      }
+      
+      .method-notes	{
+      	margin: 10px 0 20px 0;
+      	font-size: 90%;
+      	color: #555;
+      }
+      
+      pre {
+        padding: 10px;
+        margin-bottom: 2px;
+      }
+      
+      .http-method {
+       text-transform: uppercase;
+      }
+      
+      pre.get {
+        background-color: #0f6ab4;
+      }
+      
+      pre.post {
+        background-color: #10a54a;
+      }
+      
+      pre.put {
+        background-color: #c5862b;
+      }
+      
+      pre.delete {
+        background-color: #a41e22;
+      }
+      
+      .huge	{
+      	color: #fff;
+      }
+      
+      pre.example {
+        background-color: #f3f3f3;
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+      
+      code {
+        white-space: pre;
+      }
+      
+      .nickname {
+        font-weight: bold;
+      }
+      
+      .method-path {
+        font-size: 1.5em;
+        background-color: #0f6ab4;
+      }
+      
+      .up {
+        float:right;
+      }
+      
+      .parameter {
+        width: 500px;
+      }
+      
+      .param {
+        width: 500px;
+        padding: 10px 0 0 20px;
+        font-weight: bold;
+      }
+      
+      .param-desc {
+        width: 700px;
+        padding: 0 0 0 20px;
+        color: #777;
+      }
+      
+      .param-type {
+        font-style: italic;
+      }
+      
+      .param-enum-header {
+      width: 700px;
+      padding: 0 0 0 60px;
+      color: #777;
+      font-weight: bold;
+      }
+      
+      .param-enum {
+      width: 700px;
+      padding: 0 0 0 80px;
+      color: #777;
+      font-style: italic;
+      }
+      
+      .field-label {
+        padding: 0;
+        margin: 0;
+        clear: both;
+      }
+      
+      .field-items	{
+      	padding: 0 0 15px 0;
+      	margin-bottom: 15px;
+      }
+      
+      .return-type {
+        clear: both;
+        padding-bottom: 10px;
+      }
+      
+      .param-header {
+        font-weight: bold;
+      }
+      
+      .method-tags {
+        text-align: right;
+      }
+      
+      .method-tag {
+        background: none repeat scroll 0% 0% #24A600;
+        border-radius: 3px;
+        padding: 2px 10px;
+        margin: 2px;
+        color: #FFF;
+        display: inline-block;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+  <h1>Semantic API</h1>
+    <div class="app-desc">A Flask API which is a wrapper for the SPARQL queries. We defined multiple relations in our ontology between traffic signs. counterPart relation means that a sign is the counterpart for another like Speed Limit 80 and End Of Speed Limit 80. isOpposedTo relation means that the meaning of a sign is the opposite of another.</div>
+    <div class="app-desc">More information: <a href="https://helloreverb.com">https://helloreverb.com</a></div>
+    <div class="app-desc">Contact Info: <a href="hello@helloreverb.com">hello@helloreverb.com</a></div>
+    <div class="app-desc">Version: 1.0.0</div>
+    <div class="app-desc">BasePath:/vladluc99/TRASD/1.0.0</div>
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h3>Table of Contents </h3>
+  <div class="method-summary"></div>
+  <h4><a href="#None">None</a></h4>
+  <ul>
+  <li><a href="#ontologyApiV1CategorySignsGet"><code><span class="http-method">get</span> /ontology/api/v1/{category}/signs</code></a></li>
+  <li><a href="#ontologyApiV1SignsGet"><code><span class="http-method">get</span> /ontology/api/v1/signs</code></a></li>
+  <li><a href="#ontologyApiV1SignsIdGet"><code><span class="http-method">get</span> /ontology/api/v1/signs/{id}</code></a></li>
+  <li><a href="#ontologyApiV1SignsIdRelatedGet"><code><span class="http-method">get</span> /ontology/api/v1/signs/{id}/related</code></a></li>
+  </ul>
+
+  <h1><a name="None">None</a></h1>
+  <div class="method"><a name="ontologyApiV1CategorySignsGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /ontology/api/v1/{category}/signs</code></pre></div>
+    <div class="method-summary">Get signs by category (<span class="nickname">ontologyApiV1CategorySignsGet</span>)</div>
+    <div class="method-notes">Returns a list of signs (and information about them) from a specific category.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">category (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Category format: utf8</div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#inline_response_200">inline_response_200</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "reference" : "reference",
+  "regulations" : "regulations",
+  "name" : "name",
+  "advices" : "advices",
+  "id" : 0,
+  "category" : "category"
+}, {
+  "reference" : "reference",
+  "regulations" : "regulations",
+  "name" : "name",
+  "advices" : "advices",
+  "id" : 0,
+  "category" : "category"
+} ]</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Successful operation
+        
+    <h4 class="field-label">500</h4>
+    Something went wrong. Verify the ontology.
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="ontologyApiV1SignsGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /ontology/api/v1/signs</code></pre></div>
+    <div class="method-summary">Get all signs from our ontology. (<span class="nickname">ontologyApiV1SignsGet</span>)</div>
+    <div class="method-notes">Returns a list with all signs (and information about them).</div>
+
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#inline_response_200">inline_response_200</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "reference" : "reference",
+  "regulations" : "regulations",
+  "name" : "name",
+  "advices" : "advices",
+  "id" : 0,
+  "category" : "category"
+}, {
+  "reference" : "reference",
+  "regulations" : "regulations",
+  "name" : "name",
+  "advices" : "advices",
+  "id" : 0,
+  "category" : "category"
+} ]</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Successful operation
+        
+    <h4 class="field-label">500</h4>
+    Something went wrong. Verify the ontology.
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="ontologyApiV1SignsIdGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /ontology/api/v1/signs/{id}</code></pre></div>
+    <div class="method-summary">Get sign by id (<span class="nickname">ontologyApiV1SignsIdGet</span>)</div>
+    <div class="method-notes">Returns the sign that has the specified id.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">id (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Id of the sign </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#inline_response_200_1">inline_response_200_1</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "reference" : "reference",
+  "categoryReference" : "categoryReference",
+  "regulations" : "regulations",
+  "name" : "name",
+  "advices" : "advices",
+  "id" : 0,
+  "category" : "category"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Successful operation
+        <a href="#inline_response_200_1">inline_response_200_1</a>
+    <h4 class="field-label">500</h4>
+    Something went wrong. Verify the ontology.
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="ontologyApiV1SignsIdRelatedGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /ontology/api/v1/signs/{id}/related</code></pre></div>
+    <div class="method-summary">Get related signs for a specific sign. (<span class="nickname">ontologyApiV1SignsIdRelatedGet</span>)</div>
+    <div class="method-notes">Returns the related signs (A related sign is either from the same category or there exists a relation between these two signs)</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">id (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Id of the sign </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#inline_response_200_2">inline_response_200_2</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "sameCategory" : [ {
+    "reference" : "reference",
+    "categoryReference" : "categoryReference",
+    "regulations" : "regulations",
+    "name" : "name",
+    "advices" : "advices",
+    "id" : 0,
+    "category" : "category"
+  }, {
+    "reference" : "reference",
+    "categoryReference" : "categoryReference",
+    "regulations" : "regulations",
+    "name" : "name",
+    "advices" : "advices",
+    "id" : 0,
+    "category" : "category"
+  } ],
+  "counterPart" : [ {
+    "reference" : "reference",
+    "categoryReference" : "categoryReference",
+    "regulations" : "regulations",
+    "name" : "name",
+    "advices" : "advices",
+    "id" : 6,
+    "category" : "category"
+  }, {
+    "reference" : "reference",
+    "categoryReference" : "categoryReference",
+    "regulations" : "regulations",
+    "name" : "name",
+    "advices" : "advices",
+    "id" : 6,
+    "category" : "category"
+  } ],
+  "isOpposedTo" : [ {
+    "reference" : "reference",
+    "categoryReference" : "categoryReference",
+    "regulations" : "regulations",
+    "name" : "name",
+    "advices" : "advices",
+    "id" : 1,
+    "category" : "category"
+  }, {
+    "reference" : "reference",
+    "categoryReference" : "categoryReference",
+    "regulations" : "regulations",
+    "name" : "name",
+    "advices" : "advices",
+    "id" : 1,
+    "category" : "category"
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Successful operation
+        <a href="#inline_response_200_2">inline_response_200_2</a>
+  </div> <!-- method -->
+  <hr/>
+
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h3>Table of Contents</h3>
+  <ol>
+    <li><a href="#inline_response_200"><code>inline_response_200</code></a></li>
+    <li><a href="#inline_response_200_1"><code>inline_response_200_1</code></a></li>
+    <li><a href="#inline_response_200_2"><code>inline_response_200_2</code></a></li>
+  </ol>
+
+  <div class="model">
+    <h3><a name="inline_response_200"><code>inline_response_200</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">reference (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This is the URI of the sign in our ontology. format: utf8</div>
+<div class="param">advices (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Advices for drivers and pedestrians regarding this sign. format: utf8</div>
+<div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The id of the sign. </div>
+<div class="param">regulations (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Regulations regarding this sign. format: utf8</div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the sign. format: utf8</div>
+<div class="param">category (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The category that this sign is part of. format: utf8</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="inline_response_200_1"><code>inline_response_200_1</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">reference (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This is the URI of the sign in our ontology. format: utf8</div>
+<div class="param">advices (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Advices for drivers and pedestrians regarding this sign. format: utf8</div>
+<div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The id of the sign. </div>
+<div class="param">regulations (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Regulations regarding this sign. format: utf8</div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the sign. format: utf8</div>
+<div class="param">categoryReference (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The URI of the category that this sign if part of. format: utf8</div>
+<div class="param">category (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The category that this sign is part of. format: utf8</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="inline_response_200_2"><code>inline_response_200_2</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">sameCategory (optional)</div><div class="param-desc"><span class="param-type"><a href="#object">array[Object]</a></span> A list with all signs from this category. </div>
+<div class="param">counterPart (optional)</div><div class="param-desc"><span class="param-type"><a href="#object">array[Object]</a></span> A list with signs that have the counterPart relation with this sign. </div>
+<div class="param">isOpposedTo (optional)</div><div class="param-desc"><span class="param-type"><a href="#object">array[Object]</a></span> A list with signs that have the isOpposedTo relation with this sign. </div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>
